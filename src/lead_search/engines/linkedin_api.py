@@ -2,13 +2,11 @@
 
 Requires: pip install lead-search-toolkit[linkedin]
 
-Auth (choose one):
-  1. Cookie auth (safer): LINKEDIN_LI_AT and LINKEDIN_JSESSIONID env vars
-  2. Login auth: LINKEDIN_EMAIL and LINKEDIN_PASSWORD env vars
+Auth: LINKEDIN_EMAIL + LINKEDIN_PASSWORD env vars
+      (see linkedin-api docs for additional auth methods)
 
-WARNING: This engine uses an unofficial LinkedIn API that violates LinkedIn's
-Terms of Service. Use a dedicated account — never your primary professional one.
-See README for full safety guidance.
+NOTE: Uses an unofficial API. Review the linkedin-api project documentation
+for risks and Terms of Service implications.
 """
 
 import os
@@ -43,16 +41,11 @@ def _get_credentials() -> dict | None:
 
 
 def _print_safety_warning():
-    """Print a visible safety warning to stderr on engine startup."""
-    warning = """
-  !! LinkedIn Engine — Safety Notice !!
-  This uses an UNOFFICIAL API that violates LinkedIn's Terms of Service.
-  - Use a DEDICATED account, not your primary professional one
-  - Keep usage under ~50 profiles/day, ~300 searches/month
-  - Datacenter IPs are flagged instantly — use residential IP
-  - Cookie auth (LINKEDIN_LI_AT) is safer than email/password login
-  - We only use search_people() (read), but the library has write capabilities
-"""
+    """Print a brief notice to stderr on engine startup."""
+    warning = (
+        "\n  LinkedIn Engine: Uses an unofficial API. "
+        "Review linkedin-api docs for risks and ToS implications.\n"
+    )
     print(warning, file=sys.stderr)
 
 

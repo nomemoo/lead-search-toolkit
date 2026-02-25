@@ -134,51 +134,19 @@ linkedin:
 
 ## LinkedIn Engine
 
-> **This engine uses an unofficial API that violates LinkedIn's Terms of Service. Understand the risks before using it.**
-
-### Risks
-
-- LinkedIn uses **ML-based behavioral analysis** to detect automation. Non-browser fingerprints are flagged.
-- Accounts can be **restricted or permanently banned**. LinkedIn may request government ID verification.
-- **Datacenter IPs** (cloud VMs, VPNs) are flagged aggressively — use a residential IP.
-- The underlying `linkedin-api` library has **write capabilities** (messages, connection requests). Our code only uses `search_people()` (read), but the library itself can modify your account.
-
-### Safety Recommendations
-
-- **Use a dedicated account** — never your primary professional LinkedIn profile
-- Stay under **~50 profile views/day** and **~300 searches/month** on free accounts
-- Use **cookie auth** instead of email/password (avoids triggering login-flow detection)
-- Keep the default `sleep_jitter` to randomize request timing
-- Run during business hours to blend with normal usage patterns
-
-### Authentication
-
-**Option 1 — Cookie auth (recommended):**
-
-Extract cookies from your browser after logging into LinkedIn:
+> **This engine uses the unofficial [`linkedin-api`](https://github.com/tomquirk/linkedin-api) package.
+> Review their documentation for risks, limitations, and Terms of Service implications before using it.**
 
 ```bash
-export LINKEDIN_LI_AT="your_li_at_cookie_value"
-export LINKEDIN_JSESSIONID="your_jsessionid_cookie_value"
-lead-search --engine linkedin
-```
+# Install the optional dependency
+pip install -e ".[linkedin]"
 
-To find these cookies: open LinkedIn in your browser → DevTools → Application → Cookies → `linkedin.com` → copy `li_at` and `JSESSIONID` values.
-
-**Option 2 — Email/password:**
-
-```bash
+# Set credentials (see linkedin-api docs for auth options)
 export LINKEDIN_EMAIL="you@example.com"
 export LINKEDIN_PASSWORD="your-password"
+
+# Run
 lead-search --engine linkedin
-```
-
-### Installation
-
-The LinkedIn engine requires an extra dependency:
-
-```bash
-pip install -e ".[linkedin]"
 ```
 
 ## Output
