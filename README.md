@@ -2,6 +2,29 @@
 
 Config-driven lead search toolkit that finds potential customers across multiple data sources. Define your product, target segments, and keywords in a single YAML file — the toolkit generates search queries and collects leads into ready-to-use CSV files.
 
+## Using with Claude Code
+
+This project includes a `CLAUDE.md` for AI-assisted development with [Claude Code](https://claude.ai/code).
+
+Instead of editing YAML files manually, you can set up your entire config conversationally. Clone the repo, open it in Claude Code, and paste this prompt:
+
+<details>
+<summary><strong>Copy this setup prompt</strong></summary>
+
+```
+I just cloned lead-search-toolkit. Help me set up my config.yaml by asking me about:
+1. What product/service am I searching leads for? (name, one-line description, URL)
+2. What country am I targeting?
+3. Who are my target personas? (ask me for 2-3 audience segments with job titles in relevant languages)
+4. Do I want to search the Israeli NGO registry? If so, what keywords?
+
+After collecting my answers, generate a complete config.yaml and save it. Then run `lead-search` and show me the results.
+```
+
+</details>
+
+Claude Code will ask you the right questions, generate your config, and run the search — no YAML editing needed.
+
 ## Quick Start
 
 ```bash
@@ -172,29 +195,6 @@ Leads are automatically deduplicated by LinkedIn URL.
 ## Adding Your Own Engine
 
 Create a new file in `src/lead_search/engines/` that exports a `run(config: dict) -> list[dict]` function. Each dict should include at minimum: `name`, `segment`, `engine`, and `found_at`. Then register it in `cli.py`'s `ENGINE_MAP`.
-
-## Using with Claude Code
-
-This project includes a `CLAUDE.md` for AI-assisted development with [Claude Code](https://claude.ai/code).
-
-Instead of editing YAML files manually, you can set up your entire config conversationally. Clone the repo, open it in Claude Code, and paste this prompt:
-
-<details>
-<summary><strong>Copy this setup prompt</strong></summary>
-
-```
-I just cloned lead-search-toolkit. Help me set up my config.yaml by asking me about:
-1. What product/service am I searching leads for? (name, one-line description, URL)
-2. What country am I targeting?
-3. Who are my target personas? (ask me for 2-3 audience segments with job titles in relevant languages)
-4. Do I want to search the Israeli NGO registry? If so, what keywords?
-
-After collecting my answers, generate a complete config.yaml and save it. Then run `lead-search` and show me the results.
-```
-
-</details>
-
-Claude Code will ask you the right questions, generate your config, and run the search — no YAML editing needed.
 
 ## Author
 
