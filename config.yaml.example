@@ -1,0 +1,87 @@
+# Lead Search Toolkit — Configuration
+# Copy this file to config.yaml and fill in your product details.
+
+product:
+  name: "Your Product"
+  description: "One-line description of what your product does"
+  url: "https://yourproduct.com"
+
+# Country affects: LinkedIn GeoURN, gov_il engine availability, query language
+country: "Israel"
+
+segments:
+  - name: "Facilitators"
+    persona_titles:
+      hebrew:
+        - "מנחה ארגוני"
+        - "מלווה תהליכים"
+        - "יועץ ארגוני"
+        - "ליווי תהליכים"
+      english:
+        - "organizational development consultant"
+        - "group facilitator"
+        - "OD Consultant"
+        - "Dragon Dreaming facilitator"
+        - "Open Space facilitator"
+    keywords:
+      - "organizational development"
+      - "facilitation"
+      - "Dragon Dreaming"
+      - "Open Space"
+
+  - name: "Coaches"
+    persona_titles:
+      hebrew:
+        - "מאמן קבוצתי"
+        - "מאמן מנהיגות"
+      english:
+        - "executive coach"
+        - "ICF coach"
+        - "group coaching"
+    keywords:
+      - "PCC"
+      - "MCC"
+      - "ICF"
+      - "coach"
+
+  - name: "L&D / People Partners"
+    persona_titles:
+      hebrew: []
+      english:
+        - "L&D Manager"
+        - "People Partner"
+        - "Team Effectiveness"
+    keywords:
+      - "L&D"
+      - "people partner"
+      - "team effectiveness"
+
+# Keywords for Israeli NGO registry search (gov_il engine only)
+org_keywords:
+  hebrew:
+    - "ייעוץ ארגוני"
+    - "הנחיה"
+    - "קואצ'ינג"
+    - "אימון"
+    - "פיתוח ארגוני"
+    - "מנהיגות"
+    - "העצמה"
+    - "קהילה"
+    - "חינוך בלתי פורמלי"
+  english:
+    - "Dragon Dreaming"
+    - "Open Space"
+    - "World Cafe"
+    - "sociocracy"
+
+settings:
+  max_results_per_query: 20
+  sleep_between_queries: 2
+  output_dir: "output"
+
+# LinkedIn engine settings (only used with --engine linkedin)
+linkedin:
+  max_per_session: 50          # Stop after N results to reduce ban risk
+  sleep_base: 3                # Base seconds between API calls
+  sleep_jitter: 2              # Random 0-N extra seconds added for jitter
+  network_depths: ["S", "O"]   # F=1st, S=2nd, O=3rd+ degree connections

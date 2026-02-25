@@ -1,0 +1,9 @@
+output/*.csv
+config.yaml
+.env
+__pycache__/
+*.pyc
+*.egg-info/
+dist/
+build/
+.venv/
