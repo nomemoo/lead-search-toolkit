@@ -1,0 +1,88 @@
+product:
+  name: "nomemoo"
+  description: "Boutique AI agency — custom AI agents for businesses"
+  url: "https://nomemoo.com"
+
+country: "Israel"
+
+segments:
+  - name: "Founders & CEOs (AI Agency buyers)"
+    persona_titles:
+      hebrew:
+        - "מייסד"
+        - "מנכ\"ל"
+        - "יזם"
+        - "בעל עסק"
+      english:
+        - "Founder"
+        - "CEO"
+        - "startup founder"
+        - "business owner"
+    keywords:
+      - "AI adoption"
+      - "workflow automation"
+      - "small business"
+
+  - name: "CTOs & VPs R&D (Technical Partnership buyers)"
+    persona_titles:
+      hebrew:
+        - "סמנכ\"ל טכנולוגיות"
+        - "ראש פיתוח"
+        - "מנהל R&D"
+      english:
+        - "CTO"
+        - "VP R&D"
+        - "VP Engineering"
+        - "Head of Engineering"
+    keywords:
+      - "ML infrastructure"
+      - "data engineering"
+      - "architecture review"
+
+  - name: "Operations Leaders (AI Agency secondary)"
+    persona_titles:
+      hebrew:
+        - "מנהל תפעול"
+        - "סמנכ\"ל תפעול"
+      english:
+        - "COO"
+        - "Head of Operations"
+        - "Chief of Staff"
+    keywords:
+      - "process automation"
+      - "operational efficiency"
+
+  - name: "Compliance & Regulated Business (Domain Accelerator)"
+    persona_titles:
+      hebrew:
+        - "מנהל ציות"
+        - "קצין פרטיות"
+        - "ממונה אבטחת מידע"
+      english:
+        - "Compliance Manager"
+        - "Privacy Officer"
+        - "CISO"
+    keywords:
+      - "privacy compliance"
+      - "Amendment 13"
+      - "data protection"
+
+org_keywords:
+  hebrew:
+    - "בינה מלאכותית"
+    - "חדשנות טכנולוגית"
+    - "ציות לפרטיות"
+    - "אבטחת מידע"
+    - "טכנולוגיה"
+    - "סטארטאפ"
+  english:
+    - "artificial intelligence"
+    - "innovation"
+    - "technology"
+    - "startup"
+    - "compliance"
+
+settings:
+  max_results_per_query: 10
+  sleep_between_queries: 2
+  output_dir: "output/nomemoo"
