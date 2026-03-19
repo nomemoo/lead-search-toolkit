@@ -5,6 +5,8 @@ from pathlib import Path
 
 import yaml
 
+from lead_search.models import ConfigError
+
 
 # LinkedIn GeoURN mapping
 GEO_URNS = {
@@ -15,14 +17,13 @@ GEO_URNS = {
 
 
 def load_config(path: str = "config.yaml") -> dict:
-    """Load and validate config.yaml, returning the parsed dict."""
+    """Load and validate config.yaml, returning the parsed dict.
+
+    Raises ConfigError on validation failures (for programmatic use).
+    """
     config_path = Path(path)
     if not config_path.exists():
-        print(f"Config not found: {config_path}")
-        example = config_path.parent / "config.yaml.example"
-        if example.exists():
-            print(f"Copy the example and fill it in:\n  cp {example} {config_path}")
-        sys.exit(1)
+        raise ConfigError(f"Config not found: {config_path}")
 
     with open(config_path, encoding="utf-8") as f:
         config = yaml.safe_load(f)
@@ -34,16 +35,11 @@ def load_config(path: str = "config.yaml") -> dict:
 def _validate(config: dict, path: str):
     """Check required fields exist."""
     if not config.get("product", {}).get("name"):
-        _bail("product.name is required", path)
+        raise ConfigError(f"Config error in {path}: product.name is required")
     if config["product"]["name"] == "Your Product":
-        _bail("product.name is still the placeholder — fill in your real product name", path)
+        raise ConfigError(f"Config error in {path}: product.name is still the placeholder — fill in your real product name")
     if not config.get("segments"):
-        _bail("at least one segment is required", path)
-
-
-def _bail(msg: str, path: str):
-    print(f"Config error in {path}: {msg}")
-    sys.exit(1)
+        raise ConfigError(f"Config error in {path}: at least one segment is required")
 
 
 def get_geo_urn(config: dict) -> str | None:
