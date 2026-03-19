@@ -1,5 +1,6 @@
 """Google Dorks engine — uses DuckDuckGo to find LinkedIn profiles via site:linkedin.com/in queries."""
 
+import logging
 import re
 import time
 from datetime import datetime
@@ -8,6 +9,12 @@ try:
     from ddgs import DDGS
 except ImportError:
     from duckduckgo_search import DDGS
+
+logger = logging.getLogger(__name__)
+
+# Safety limits
+QUERY_TIMEOUT = 30  # seconds per query
+MAX_TOTAL_TIME = 180  # 3 minutes total for all queries
 
 
 def _extract_handle(url: str) -> str:
@@ -44,17 +51,23 @@ def run(config: dict) -> list[dict]:
     """Run DuckDuckGo searches and return list of lead dicts."""
     queries = _build_queries(config)
     settings = config.get("settings", {})
-    max_results = settings.get("max_results_per_query", 20)
+    max_results = settings.get("max_results_per_query", 10)
     sleep_sec = settings.get("sleep_between_queries", 2)
 
     all_leads = []
     seen_urls = set()
+    start_time = time.monotonic()
 
-    with DDGS() as ddgs:
+    with DDGS(timeout=QUERY_TIMEOUT) as ddgs:
         for seg_name, label, query in queries:
-            print(f"  [{label}] {query[:80]}...")
+            # Total time budget check
+            if time.monotonic() - start_time > MAX_TOTAL_TIME:
+                logger.warning("Total time budget exceeded (%ds), stopping", MAX_TOTAL_TIME)
+                break
+
+            logger.info("[%s] %s", label, query[:80])
             try:
-                results = ddgs.text(query, max_results=max_results)
+                results = list(ddgs.text(query, max_results=max_results))
                 count = 0
                 for r in results:
                     url = r.get("href", "")
@@ -81,13 +94,15 @@ def run(config: dict) -> list[dict]:
                         "found_at": datetime.now().strftime("%Y-%m-%d"),
                     })
                     count += 1
-                    print(f"    {handle} — {r.get('title', '')[:60]}")
+                    logger.debug("  %s — %s", handle, r.get("title", "")[:60])
 
-                print(f"    -> {count} new leads")
+                logger.info("  -> %d new leads from %s", count, label)
                 time.sleep(sleep_sec)
 
             except Exception as e:
-                print(f"    Error: {e}")
-                time.sleep(5)
+                logger.warning("  Query error for %s: %s", label, e)
+                time.sleep(3)
 
+    elapsed = time.monotonic() - start_time
+    logger.info("Google dorks: %d leads in %.1fs from %d queries", len(all_leads), elapsed, len(queries))
     return all_leads
